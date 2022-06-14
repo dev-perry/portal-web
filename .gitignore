@@ -1,5 +1,3 @@
-/.storybook/
-
 # dependencies
 /node_modules
 /.pnp
