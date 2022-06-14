@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script'
 
@@ -12,7 +13,7 @@ class MyDocument extends Document {
           href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <Script src="https://kit.fontawesome.com/52d22693b9.js" crossOrigin="anonymous"></Script>
+        <script src="https://kit.fontawesome.com/52d22693b9.js" crossOrigin="anonymous"></script>
         </Head>
         <body>
           <Main />
