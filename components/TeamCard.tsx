@@ -1,4 +1,4 @@
-function TeamCard() {
+function TeamCard(): JSX.Element {
   return (
     <div className="w-80 h-28 border-2 border-[#E6E6E6] rounded bg-[#FFFFFF] font-default flex flex-col">
       <div className="w-full h-1/2 bg-[#FAFAFA] border-b-2 border-[#E6E6E6] flex flex-row justify-between pt-2 px-3">

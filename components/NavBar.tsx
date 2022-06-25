@@ -9,7 +9,7 @@ type NavItem = {
   route: string;
 };
 
-function NavBar() {
+function NavBar(): JSX.Element {
     const router = useRouter();
 
   const navigation: NavItem[] = [

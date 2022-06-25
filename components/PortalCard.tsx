@@ -1,4 +1,4 @@
-function PortalCard() {
+function PortalCard(): JSX.Element {
   return (
     <div className="w-80 h-40 border-2 border-[#E6E6E6] rounded bg-[#FFFFFF] font-default flex flex-row">
       <div className="w-1/2 h-full border-r-2 border-[#E6E6E6] bg-[#FAFAFA] px-3 pt-3">

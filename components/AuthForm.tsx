@@ -1,4 +1,4 @@
-function AuthForm() {
+function AuthForm() : JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center w-[480px] h-[550px] rounded border-2 border-[#E6E6E6] bg-[#FFFFFF]">
       <p className="text-3xl font-bold">Account Login</p>

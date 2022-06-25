@@ -1,4 +1,4 @@
-function DataCard(){
+function DataCard(): JSX.Element {
     return(
         <div className="w-60 h-40 border-2 border-[#E6E6E6] rounded bg-[#FAFAFA] font-default flex flex-col items-center py-4 space-y-3">
             <p className="font-semibold text-lg">Submissions</p>

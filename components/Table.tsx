@@ -1,4 +1,4 @@
-function Table(){
+function Table(): JSX.Element {
     const submissions = [
         { label: 'The Best Place', status: 'Complete', portal: 'Poetry 2020', submitter: 'John Damian', submitted: 'Apr 5 2022' },
         { label: 'The Best Place', status: 'Complete', portal: 'Poetry 2020', submitter: 'John Damian', submitted: 'Apr 5 2022' },
