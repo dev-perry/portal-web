@@ -1,5 +1,6 @@
 type InputProps = {
   type: string;
+  label?: string;
   options?: string[];
 };
 
@@ -38,10 +39,10 @@ const inputs: { [key: string]: (options?: string[]) => JSX.Element } = {
   ),
 };
 
-function FormInput({ type, options }: InputProps): JSX.Element {
+function FormInput({ type, options, label="Label" }: InputProps): JSX.Element {
   return (
       <label className="block">
-        <span className="font-medium text-base">Label</span>
+        <span className="font-medium text-base">{label}</span>
         {inputs[type](options)}
       </label>
   );

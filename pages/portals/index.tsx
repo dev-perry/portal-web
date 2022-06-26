@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import PortalCard from '../components/PortalCard';
+import PortalCard from '../../components/PortalCard';
 
 const Portals: NextPage = () => {
   return (
