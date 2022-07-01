@@ -1,5 +1,5 @@
 import FormInput from '../../components/FormInput';
-import FormInputWrapper from '../../components/FormInputWrapper';
+import PortalConfig from '../../components/PortalConfig';
 import PortalElementButton from '../../components/PortalElementButton';
 
 function PortalEditor(): JSX.Element {
@@ -11,13 +11,7 @@ function PortalEditor(): JSX.Element {
     'date',
     'file',
   ];
-  let formConfig: {type:string}[] = [
-    { type: 'text' },
-    { type: 'text-area' },
-    { type: 'single-choice' },
-    { type: 'multi-choice' },
-    { type: 'date' },
-  ];
+
   return (
     <div className="h-screen">
       <div className="flex flex-row h-full overflow-y-auto">
@@ -60,49 +54,7 @@ function PortalEditor(): JSX.Element {
             </div>
           </form>
         </div>
-        <div className="grow px-10 py-8 overflow-auto">
-          <p className="text-2xl font-medium text-[#427A5B] mb-1">
-            Portal Name
-          </p>
-          <div className="flex flex-row items-center space-x-2">
-            <p>May 3 2022</p>
-            <hr
-              style={{
-                color: '#D4D4D4',
-                backgroundColor: '#D4D4D4',
-                height: 2,
-                width: 16,
-              }}
-            />
-            <p>May 3 2022</p>
-          </div>
-          <p>
-            <span className="font-bold pr-2">$12.00</span>fee
-          </p>
-          <p className="leading-5 mt-6 mb-7">
-            Cursus quis quis sit urna, tortor suspendisse vitae mauris. Quis
-            quis volutpat a sit massa et nullam aliquam quam. Viverra faucibus
-            imperdiet consectetur malesuada aliquet. Vitae, urna, imperdiet sem
-            placerat velit convallis suscipit amet est. Consectetur vitae nulla
-            bibendum ornare gravida ultrices. Lacus sit donec egestas donec id.
-            Sit praesent laoreet nulla malesuada accumsan. Consequat sed elit
-            neque, mattis lectus. Amet a fames neque ultricies erat.
-          </p>
-          <hr
-            style={{
-              color: '#D4D4D4',
-              backgroundColor: '#D4D4D4',
-              height: 2,
-              width: 216,
-              margin: 'auto',
-            }}
-          />
-          <form className="flex flex-col space-y-8 mt-7">
-            {formConfig.map((config) => (
-              <FormInputWrapper key={config.type} type={config.type} />
-            ))}
-          </form>
-        </div>
+        <PortalConfig/>
       </div>
     </div>
   );

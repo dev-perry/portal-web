@@ -5,9 +5,7 @@ const Dashboard: NextPage = () => {
   const today = new Date().toLocaleDateString(undefined, {month: 'long', day: 'numeric', weekday: 'long'})
   return (
     <div className="pt-12 px-12 h-screen">
-      <div className="flex flex-row">
       <p className="text-3xl font-default font-semibold">{today}</p>
-      </div>
       <div className="flex flex-row space-x-6 mt-6">
         <DataCard/>
         <DataCard/>
