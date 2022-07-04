@@ -1,10 +1,14 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import DataCard from '../components/DataCard';
 
 const Dashboard: NextPage = () => {
   const today = new Date().toLocaleDateString(undefined, {month: 'long', day: 'numeric', weekday: 'long'})
   return (
     <div className="pt-12 px-12 h-screen">
+      <Head>
+        <title>Vostome Portal - Dashboard</title>
+      </Head>
       <p className="text-3xl font-default font-semibold">{today}</p>
       <div className="flex flex-row space-x-6 mt-6">
         <DataCard/>

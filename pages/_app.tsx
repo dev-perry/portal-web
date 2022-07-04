@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import NavBar from '../components/NavBar';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
@@ -17,7 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <NavBar />
       </div>
       <div className="grow">
+        <DndProvider backend={HTML5Backend}>
         <Component {...pageProps} />
+        </DndProvider>
       </div>
     </div>
   );

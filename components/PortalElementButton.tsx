@@ -1,3 +1,9 @@
+import {useDrag} from 'react-dnd';
+
+type ButtonProps = {
+  fieldType: string;
+}
+
 const elements: {[key: string]: {icon: string, label: string}} = {
   "text": {
     icon: "fa-input-text",
@@ -25,11 +31,17 @@ const elements: {[key: string]: {icon: string, label: string}} = {
   }
 }
 
-function PortalElementButton({type} : {[key: string]: string}): JSX.Element {
+function PortalElementButton({fieldType} : ButtonProps): JSX.Element {
+  const [_, preview] = useDrag(() => ({
+    type: 'portal-element',
+    item: {fieldType: fieldType, id: Math.random()},
+  }))
   return (
-    <button className="w-[100px] h-[72px] border-2 border-[#D4D4D4] rounded text-center bg-[#FFFFFF]">
-      <i className={elements[type].icon + " fa-regular fa-xl"} style={{color:'#427A5B'}}/>
-      <p className="text-sm font-medium pt-1">{elements[type].label}</p>
+    <button ref={preview} className="flex flex-col w-[100px] h-[72px] border-2 border-[#D4D4D4] rounded bg-[#FFFFFF] justify-center">
+      <div className="mx-auto">
+      <i className={elements[fieldType].icon + " fa-regular fa-xl"} style={{color:'#427A5B'}}/>
+      <p className="text-sm font-medium pt-1">{elements[fieldType].label}</p>
+      </div>
     </button>
   );
 }

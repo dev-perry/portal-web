@@ -1,19 +1,89 @@
-import FormInput from '../components/FormInput';
+import FormInput from './FormInput';
+import type { Identifier, XYCoord } from 'dnd-core'
+import { useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 
 type WrapperProps = {
-  type: string;
+  fieldType: string;
+  index: number;
+  moveField: (dragIndex: number, hoverIndex: number) => void;
 };
 
 function FormInputWrapper({
-  type,
+  fieldType,
+  index,
+  moveField,
 }: WrapperProps): JSX.Element {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [{handlerId}, drop] = useDrop<{index:number}, void, {handlerId: Identifier | null}>({
+    accept: 'form-input',
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item:{index: number}, monitor) {
+      if(!ref.current){
+        return;
+      }
+
+      const dragIndex = item.index;
+      const hoverIndex = index;
+
+      //Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      //Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+
+      //Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+      //Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+
+      //Get pixels to the top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+
+      //Only perform the move when the mouse has crossed half of the items height
+      //When dragging downwards, only move when the cursor is below 50%
+      //When dragging upwards, only move when the cursor is above 50%
+      
+      //Drag downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+
+      //Drag upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      //Time to actually perform the action
+      moveField(dragIndex, hoverIndex);
+
+      item.index = hoverIndex;
+    }
+  })
+
+  const [_, drag] = useDrag({
+    type: 'form-input',
+    item: () => {
+      return {index}
+    }
+  })
+
+  drag(drop(ref));
 
   return (
-    <div className="flex flex-row space-x-2 items-center">
+    <div ref={ref} className="flex flex-row space-x-2 items-center" data-handler-id={handlerId}>
       <i className="fa-grip-dots-vertical fa-regular hover:cursor-grab" />
       <div>
-        <FormInput type={type} />
-        {type === 'single-choice' || type === 'multi-choice' ? (
+        <FormInput type={fieldType} />
+        {fieldType === 'single-choice' || fieldType === 'multi-choice' ? (
           <button className="mt-3 font-semibold text-[#427A5B]">
             Add option
           </button>

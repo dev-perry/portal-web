@@ -1,19 +1,44 @@
 import { useState } from 'react';
+import {useDrop} from 'react-dnd';
+import update from 'immutability-helper';
+import type Field from '../models/Field';
 import FormInputWrapper from './FormInputWrapper';
 
-type Field = {
-    id: number;
-    type: string;
-}
 
 function PortalConfig(): JSX.Element {
-    const [fields, setFields] = useState<Field[]>([
-        { id: 1, type: 'text' },
-        {  id: 2, type: 'text-area' },
-        {  id: 3, type: 'single-choice' },
-        {  id: 4, type: 'multi-choice' },
-        {  id: 5, type: 'date' },  
-    ])
+  const [fields, setFields] = useState<Field[]>([
+  ])
+
+  const [_, drop] = useDrop(() => ({
+    accept: 'portal-element',
+    drop: (item : Field) => {
+        if(fields.some(field => field.id === item.id))
+            return;
+        handleAddField(item.fieldType, item.id)
+        },
+}))
+
+const handleAddField = (type: string, id: number) => {
+  setFields((previous: Field[]) => 
+  update(previous, {
+      $splice: [[0, 0, {
+          fieldType: type,
+          id: id,
+      }]]
+  })
+  )
+}
+
+const handleMoveField = (dragIndex: number, hoverIndex: number) => {
+  setFields((previous: Field[]) =>
+    update(previous, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, previous[dragIndex] as Field],
+      ],
+    }),
+  )
+}
 
     return(
         <div className="grow px-10 py-8 overflow-auto">
@@ -53,11 +78,11 @@ function PortalConfig(): JSX.Element {
             margin: 'auto',
           }}
         />
-        <form className="flex flex-col space-y-8 mt-7">
-          {fields.map((field) => (
-            <FormInputWrapper key={field.type} type={field.type}/>
+        <div ref={drop} className="flex flex-col space-y-8 mt-7 h-screen">
+          {fields.map((field, position) => (
+            <FormInputWrapper key={field.id} fieldType={field.fieldType} index={position} moveField={handleMoveField}/>
           ))}
-        </form>
+        </div>
       </div>
       )
 }

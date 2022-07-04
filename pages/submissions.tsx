@@ -1,9 +1,13 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import Table from '../components/Table';
 
 const Submissions: NextPage = () => {
   return (
     <div className="pt-12 px-12 h-screen">
+      <Head>
+        <title>Vostome Portal - Submissions</title>
+      </Head>
       <p className="text-3xl font-default font-semibold">Submissions</p>
       <div className="flex flex-row mt-8 space-x-4">
         <input

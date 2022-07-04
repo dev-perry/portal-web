@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import FormInput from '../../components/FormInput';
 import PortalConfig from '../../components/PortalConfig';
 import PortalElementButton from '../../components/PortalElementButton';
@@ -14,9 +15,12 @@ function PortalEditor(): JSX.Element {
 
   return (
     <div className="h-screen">
+      <Head>
+        <title>Vostome Portal - Portal Editor</title>
+      </Head>
       <div className="flex flex-row h-full overflow-y-auto">
         <div className="bg-[#F9F9F9] w-[480px] px-10 py-8">
-          <form className="flex flex-col space-y-3 relative">
+          <div className="flex flex-col space-y-3 relative">
             <FormInput type="text" label="Portal Name" />
             <FormInput type="text-area" label="Description" />
             <label className="block">
@@ -41,7 +45,7 @@ function PortalEditor(): JSX.Element {
             </div>
             <div className="grid grid-cols-3 gap-y-6 pt-8">
               {portalButtons.map((type) => (
-                <PortalElementButton key={type} type={type} />
+                <PortalElementButton key={type} fieldType={type} />
               ))}
             </div>
             <div className="flex flex-row space-x-5 justify-end pt-8">
@@ -52,7 +56,7 @@ function PortalEditor(): JSX.Element {
                 Save
               </button>
             </div>
-          </form>
+          </div>
         </div>
         <PortalConfig/>
       </div>
