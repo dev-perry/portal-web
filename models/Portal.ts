@@ -1,6 +1,6 @@
 type Portal = {
-    _id: string;
-    teamId: string;
+    id: string;
+    team_id: string;
     name: string;
     desc: string;
     createdOn: Date;

@@ -1,5 +1,4 @@
 type Field = {
-    id: number;
     fieldType: string;
 }
 

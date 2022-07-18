@@ -1,9 +1,13 @@
 import Head from 'next/head';
-import FormInput from '../../components/FormInput';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import PortalConfig from '../../components/PortalConfig';
 import PortalElementButton from '../../components/PortalElementButton';
+import { PortalConfigurationContext } from '../../contexts/PortalConfiguration';
 
 function PortalEditor(): JSX.Element {
+  const router = useRouter();
+
   const portalButtons: string[] = [
     'text',
     'text-area',
@@ -13,6 +17,13 @@ function PortalEditor(): JSX.Element {
     'file',
   ];
 
+  const { start, end, updateStart, updateEnd, updateDesc, updateName, writeToDatabase } = useContext(PortalConfigurationContext);
+
+  const savePortal = () => {
+    writeToDatabase();
+    router.replace('/portals');
+  }
+
   return (
     <div className="h-screen">
       <Head>
@@ -21,27 +32,39 @@ function PortalEditor(): JSX.Element {
       <div className="flex flex-row h-full overflow-y-auto">
         <div className="bg-[#F9F9F9] w-[480px] px-10 py-8">
           <div className="flex flex-col space-y-3 relative">
-            <FormInput type="text" label="Portal Name" />
-            <FormInput type="text-area" label="Description" />
             <label className="block">
-              <span className="font-medium text-base">Fee</span>
+              <span className="font-medium text-base">Portal Name</span>
               <input
-                type="text"
-                className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-32 rounded-lg"
+                onChange={(e) => updateName(e.target.value)}
+                className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"
               ></input>
             </label>
-            <fieldset className="block">
-              <div className="block">
+            <label className="block">
+              <span className="font-medium text-base">Description</span>
+              <textarea
+                onChange={(e) => updateDesc(e.target.value)}
+                className="block border-2 border-[#D4D4D4] mt-3.5 w-[396px] rounded-lg px-2 h-24"
+              ></textarea>
+            </label>
+            <div className="space-y-4">
+              <label className="block">
+                <span className="font-medium text-base">Start</span>
                 <input
-                  type="checkbox"
-                  className="border-2 border-[#D4D4D4] rounded"
+                value={start}
+                onChange={(e) => updateStart(e.target.value)}
+                  type="datetime-local"
+                  className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
                 ></input>
-                <span className="ml-2">Require payment</span>
-              </div>
-            </fieldset>
-            <div className="flex flex-row space-x-7">
-              <FormInput type="date" label="Start" />
-              <FormInput type="date" label="End" />
+              </label>
+              <label className="block">
+                <span className="font-medium text-base">End</span>
+                <input
+                value={end}
+                onChange={(e) => updateEnd(e.target.value)}
+                type="datetime-local"
+                className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
+                ></input>
+              </label>
             </div>
             <div className="grid grid-cols-3 gap-y-6 pt-8">
               {portalButtons.map((type) => (
@@ -52,13 +75,13 @@ function PortalEditor(): JSX.Element {
               <button className="border border-[#9D2F2F] bg-[#FFFFFF] text-[#9D2F2F] w-20 h-8 font-medium rounded">
                 Cancel
               </button>
-              <button className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
+              <button onClick={savePortal} className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
                 Save
               </button>
             </div>
           </div>
         </div>
-        <PortalConfig/>
+        <PortalConfig />
       </div>
     </div>
   );

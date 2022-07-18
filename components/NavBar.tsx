@@ -14,11 +14,6 @@ function NavBar(): JSX.Element {
 
   const navigation: NavItem[] = [
     {
-      icon: 'fa-regular fa-grid-2',
-      label: 'Dashboard',
-      route: '/dashboard',
-    },
-    {
       icon: 'fa-regular fa-vector-circle',
       label: 'Portals',
       route: '/portals',
@@ -27,11 +22,6 @@ function NavBar(): JSX.Element {
       icon: 'fa-regular fa-box-archive',
       label: 'Submissions',
       route: '/submissions',
-    },
-    {
-      icon: 'fa-regular fa-user',
-      label: 'Team',
-      route: '/team',
     },
   ];
   

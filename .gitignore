@@ -1,15 +1,5 @@
-#temp ignore
-firebase/
-functions/
-.firebaserc
-firebase.json
-# test logs
-/ui-debug.log
-/firestore-debug.log
-
-#emulator persistence
-test/auth_export
-test/firestore_export
+#testing
+/.env
 
 # dependencies
 /node_modules

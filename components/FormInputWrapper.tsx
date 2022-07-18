@@ -1,20 +1,20 @@
 import FormInput from './FormInput';
 import type { Identifier, XYCoord } from 'dnd-core'
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { PortalConfigurationContext } from '../contexts/PortalConfiguration';
 
 type WrapperProps = {
   fieldType: string;
   index: number;
-  moveField: (dragIndex: number, hoverIndex: number) => void;
 };
 
 function FormInputWrapper({
   fieldType,
   index,
-  moveField,
 }: WrapperProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
+  const {handleMoveField} = useContext(PortalConfigurationContext);
 
   const [{handlerId}, drop] = useDrop<{index:number}, void, {handlerId: Identifier | null}>({
     accept: 'form-input',
@@ -63,7 +63,7 @@ function FormInputWrapper({
       }
 
       //Time to actually perform the action
-      moveField(dragIndex, hoverIndex);
+      handleMoveField(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
     }
