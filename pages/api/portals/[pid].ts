@@ -7,8 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try{
       const {data, error} = await supabase
       .from('portals')
-      .select('name, desc, fields')
+      .select('*')
       .eq('id', pid)
+      .single()
   
       if (error) throw error
       res.status(200).json(data)

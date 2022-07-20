@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className="flex flex-row min-h-screen">
       <div
         className={classNames('flex-none align-self-start', {
-          hidden: router.asPath == '/auth',
+          hidden: router.asPath.includes('/auth') || router.asPath.includes('/submit'),
         })}
       >
         <NavBar />

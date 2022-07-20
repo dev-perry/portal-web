@@ -1,23 +1,27 @@
+import Field from "./Field";
+
 type Portal = {
     id: string;
     team_id: string;
     name: string;
     desc: string;
-    createdOn: Date;
-    isActive: boolean;
+    created_on: Date;
+    is_active: boolean;
     files: boolean;
-    payment: boolean;
-    fee: number;
+    fields: Field[]
+}
+
+export type PortalApiResponse ={
+    id: string;
+    team_id: string;
+    name: string;
+    desc: string;
+    created_on: Date;
+    is_active: boolean;
+    files: boolean;
     fields: {
-        _id: string;
-        label: string;
-        type: string;
-        required: boolean;
-        options?: {
-            _id: string;
-            label: string;
-        }[]
-    }[]
+        blocks: Field[]
+    }
 }
 
 export default Portal;
