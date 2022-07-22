@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import PortalConfiguration from '../contexts/PortalConfiguration';
+import Submission from "../contexts/Submission";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="grow">
         <DndProvider backend={HTML5Backend}>
           <PortalConfiguration>
+            <Submission>
             <Component {...pageProps} />
+            </Submission>
           </PortalConfiguration>
         </DndProvider>
       </div>

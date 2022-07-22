@@ -6,13 +6,14 @@ type InputProps = {
 
 const inputs: { [key: string]: (options?: string[]) => JSX.Element } = {
   text: () => (
-    <input className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"></input>
+    <input name="text" className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"></input>
   ),
   'text-area': () => (
-    <textarea className="block border-2 border-[#D4D4D4] mt-3.5 w-[396px] rounded-lg px-2 h-24"></textarea>
+    <textarea name="textarea" className="block border-2 border-[#D4D4D4] mt-3.5 w-[396px] rounded-lg px-2 h-24"></textarea>
   ),
   date: () => (
     <input
+      name="date"
       type="date"
       className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
     ></input>

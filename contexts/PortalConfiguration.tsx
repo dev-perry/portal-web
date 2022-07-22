@@ -65,7 +65,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
       if(res.status === 200) {
       return res.json()
     }else{
-      throw("Unable to write to database")
+      throw new Error("Error creating portal")
     }
   })
   .catch(err => console.error(err))
