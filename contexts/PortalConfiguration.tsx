@@ -10,6 +10,7 @@ type ConfigContext = {
     end: string,
     handleAddField: (type: string) => void,
     handleMoveField: (dragIndex: number, hoverIndex: number) => void,
+    handleUpdateField: (id: number, attribute: string, value: string | string[] | boolean) => void,
     updateDesc: (desc: string) => void,
     updateName: (name: string) => void,
     updateStart: (start: string) => void,
@@ -28,10 +29,14 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
     const [end, updateEnd] = useState('');
 
   const handleAddField = (type: string) => {
+    const id = Math.floor(Math.random() * 68759)
     setFields((previous: Field[]) => 
     update(previous, {
         $push: [{
-            fieldType: type,
+            id: id,
+            label: 'Label',
+            type: type,
+            required: false
         }]
     })
     )
@@ -44,6 +49,16 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
           [dragIndex, 1],
           [hoverIndex, 0, previous[dragIndex] as Field],
         ],
+      }),
+    )
+  }
+
+  const handleUpdateField = (id: number, attribute: string, value: string | string[] | boolean) => {
+    setFields((previous: Field[]) =>
+      update(previous, {
+        [fields.findIndex(field => field.id === id)]: {
+          [attribute]: {$set: value}
+        }
       }),
     )
   }
@@ -72,7 +87,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
   }
 
   return (
-    <PortalConfigurationContext.Provider value={{fields, name, desc, start, end, handleAddField, handleMoveField, updateName, updateDesc, updateStart, updateEnd, writeToDatabase}}>
+    <PortalConfigurationContext.Provider value={{fields, name, desc, start, end, handleAddField, handleMoveField, handleUpdateField, updateName, updateDesc, updateStart, updateEnd, writeToDatabase}}>
       {children}
     </PortalConfigurationContext.Provider>
   );

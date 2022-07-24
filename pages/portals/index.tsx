@@ -13,7 +13,6 @@ const Portals: NextPage = () => {
       .then(res => res.json())
       .then(data => {
         setPortals(data)
-        console.log(portals)
       })
   },[])
   

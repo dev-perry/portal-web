@@ -72,7 +72,7 @@ const Submit: NextPage = () => {
             className="flex flex-col space-y-8 mt-7 h-screen px-3"
           >
             {portal.fields.blocks.map((field, position) => (
-              <FormInput key={position} type={field.fieldType} />
+              <FormInput key={position} type={field.type} id={field.id} editable={false}/>
             ))}
             <button className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
               Submit

@@ -43,7 +43,7 @@ function PortalConfig(): JSX.Element {
         />
         <div className="flex flex-col space-y-8 mt-7 h-screen">
           {fields.map((field, position) => (
-            <FormInputWrapper key={position} fieldType={field.fieldType} index={position}/>
+            <FormInputWrapper key={position} field={field} index={position}/>
           ))}
         </div>
       </div>
