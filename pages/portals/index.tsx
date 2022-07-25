@@ -25,7 +25,7 @@ const Portals: NextPage = () => {
       <p className="text-3xl font-default font-semibold">Portals</p>
       <button className="h-8 ml-9 text-base rounded border px-4 border-[#427A5B] text-[#427A5B]" onClick={() => router.push("/portals/editor")}>Create Portal</button>
       </div>
-      <div className="grid grid-cols-3 mt-8">
+      <div className="grid grid-cols-3 mt-8 gap-y-6">
         {portals.map((portal) => <PortalCard key={portal.id} name={portal.name} desc={portal.desc} id={portal.id}/>)}
       </div>
     </div>

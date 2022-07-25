@@ -18,7 +18,7 @@ function FormInputWrapper({
   const {handleMoveField, handleUpdateField} = useContext(PortalConfigurationContext);
 
   const updateRequired = (e: React.FormEvent<HTMLSpanElement>) => {
-    handleUpdateField(field.id, "required", e.target.value == 'on' ? true : false);
+    handleUpdateField(field.id, "required", e.currentTarget.checked);
   }
 
   const [{handlerId}, drop] = useDrop<{index:number}, void, {handlerId: Identifier | null}>({
