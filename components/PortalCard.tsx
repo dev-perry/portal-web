@@ -26,22 +26,6 @@ function PortalCard({ name, desc, id }: CardProps): JSX.Element {
           ></i>
           Active
         </span>
-        <div className="mt-6 space-y-1.5">
-          <span className="text-sm m-auto block">
-            <i
-              className="fa-regular fa-circle-check pr-2"
-              style={{ color: '#427A5B' }}
-            ></i>
-            Text
-          </span>
-          <span className="text-sm m-auto block">
-            <i
-              className="fa-regular fa-circle-check pr-2"
-              style={{ color: '#427A5B' }}
-            ></i>
-            Files
-          </span>
-        </div>
         <div className="flex flex-row space-x-3 absolute bottom-3 right-3 mx-auto">
             <button className="text-xs border border-[#4C4C4C] text-[#4C4C4C] rounded px-2">
               Edit

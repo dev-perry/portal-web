@@ -1,15 +1,13 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import FormInput from '../../components/FormInput';
-import { PortalApiResponse } from '../../models/Portal';
 import { SubmissionContext } from '../../contexts/Submission';
 
 const Submit: NextPage = () => {
   const router = useRouter();
-  const [portal, setPortal] = useState<PortalApiResponse>();
-  const { sendSubmission } = useContext(SubmissionContext);
+  const { sendSubmission, targetPortal, setTargetPortal } = useContext(SubmissionContext);
 
   let { pid } = router.query;
 
@@ -18,7 +16,7 @@ const Submit: NextPage = () => {
       fetch(`/api/portals/${pid}`)
         .then((res) => res.json())
         .then((data) => {
-          setPortal(data);
+          setTargetPortal(data);
         });
     }
   }, [pid]);
@@ -32,18 +30,18 @@ const Submit: NextPage = () => {
     sendSubmission(pid as string, formData);
   };
 
-  if (!portal) {
+  if (!targetPortal.fields) {
     return <div className="m-auto">Loading...</div>;
   }
 
   return (
       <div className="container h-screen mx-auto">
         <Head>
-          <title>{portal.name}</title>
+          <title>{targetPortal.name}</title>
         </Head>
         <div className="py-8 overflow-auto w-1/2 mx-auto">
           <p className="text-2xl font-medium text-[#427A5B] mb-1">
-            {portal.name}
+            {targetPortal.name}
           </p>
           <div className="flex flex-row items-center space-x-2">
             <p> Start Date </p>
@@ -57,7 +55,7 @@ const Submit: NextPage = () => {
             />
             <p> End Date </p>
           </div>
-          <p className="leading-5 mt-6 mb-7">{portal.desc}</p>
+          <p className="leading-5 mt-6 mb-7">{targetPortal.desc}</p>
           <hr
             style={{
               color: '#D4D4D4',
@@ -71,8 +69,8 @@ const Submit: NextPage = () => {
             onSubmit={(e) => handleSubmit(e)}
             className="flex flex-col space-y-8 mt-7 h-screen px-3"
           >
-            {portal.fields.blocks.map((field, position) => (
-              <FormInput key={position} type={field.type} id={field.id} editable={false}/>
+            {targetPortal.fields.blocks.map((block, position) => (
+              <FormInput key={position} type={block.type} id={block.id} editable={false} label={block.label}/>
             ))}
             <button className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
               Submit
