@@ -1,10 +1,10 @@
 import { createContext, useState } from "react";
-import { PortalApiResponse } from "../models/Portal";
+import Portal from "../models/Portal";
 
 type SubContext = {
     isSubmitting: boolean;
-    targetPortal: PortalApiResponse;
-    setTargetPortal: (portal: PortalApiResponse) => void;
+    targetPortal: Portal;
+    setTargetPortal: (portal: Portal) => void;
     setSubmittingState: (state: boolean) => void;
     sendSubmission: (portal_id: string, fields: {[key: string]: string}) => void;
 }
@@ -13,7 +13,7 @@ export const SubmissionContext = createContext({} as SubContext);
 
 function Submission({children} : {children: React.ReactNode}){
     const [isSubmitting, setSubmittingState] = useState<boolean>(false);
-    const [targetPortal, setTargetPortal] = useState({} as PortalApiResponse)
+    const [targetPortal, setTargetPortal] = useState({} as Portal)
 
     const sendSubmission = (portal_id: string, fields: {[key: string]: string}) => {
         setSubmittingState(true);

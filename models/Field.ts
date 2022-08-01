@@ -3,10 +3,7 @@ type Field = {
     label: string;
     type: string;
     required: boolean;
-    options?: {
-        id: number;
-        label: string;
-    }[]
+    options: string[] | null;
 }
 
 export default Field;

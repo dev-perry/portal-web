@@ -69,8 +69,8 @@ const Submit: NextPage = () => {
             onSubmit={(e) => handleSubmit(e)}
             className="flex flex-col space-y-8 mt-7 h-screen px-3"
           >
-            {targetPortal.fields.blocks.map((block, position) => (
-              <FormInput key={position} type={block.type} id={block.id} editable={false} label={block.label}/>
+            {targetPortal.fields.map((field, position) => (
+              <FormInput key={position} editable={false} {...field}/>
             ))}
             <button className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
               Submit

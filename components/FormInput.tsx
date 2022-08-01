@@ -1,15 +1,18 @@
 import {useContext} from 'react';
 import {PortalConfigurationContext} from '../contexts/PortalConfiguration';
 import FormInputChoices from '../components/FormInputChoices';
+import ContentEditable from 'react-contenteditable'
 
 type InputProps = {
   id: number;
   type: string;
   editable: boolean
-  label?: string;
+  label: string;
+  options: string[] | null;
+  required?: boolean;
 };
 
-function FormInput({ type, id, editable, label="Label"}: InputProps): JSX.Element {
+function FormInput({ type, id, editable, label, options, required}: InputProps): JSX.Element {
 
   const { handleUpdateField } = useContext(PortalConfigurationContext);
 
@@ -17,7 +20,7 @@ function FormInput({ type, id, editable, label="Label"}: InputProps): JSX.Elemen
     handleUpdateField(id, "label", e.currentTarget.innerText);
   }
 
-  const inputs: { [key: string]: (options?: string[]) => JSX.Element } = {
+  const inputs: { [key: string]: () => JSX.Element } = {
     text: () => (
       <input disabled={editable} name={label} className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"></input>
     ),
@@ -35,13 +38,18 @@ function FormInput({ type, id, editable, label="Label"}: InputProps): JSX.Elemen
     file: () => (
       <input name={label} disabled={editable} type="file" className="block mt-3.5 file:border-2 file:bg-[#F2F2F2] file:rounded-lg file:border-[#D4D4D4]"/>
     ),
-    'single-choice': (options = ['Option 1', 'Option 2', 'Option 3']) => <FormInputChoices id={id} type="radio" options={options} disabled={editable}/>,
-    'multi-choice': (options = ['Option 1', 'Option 2', 'Option 3']) => <FormInputChoices id={id} type="checkbox" options={options} disabled={editable}/>,
+    'single-choice': () => <FormInputChoices id={id} type="single-choice" options={options} disabled={editable} label={label}/>,
+    'multi-choice': () => <FormInputChoices id={id} type="multi-choice" options={options} disabled={editable} label={label}/>,
   };
 
   return (
       <label className="block">
-        <span className="font-medium text-base" contentEditable={editable} suppressContentEditableWarning={editable} onInput={(e) => updateLabel(e)}>{label}</span>
+        <span className="font-medium text-base">
+          <ContentEditable
+          disabled={!editable}
+          html={required ? `* ${label}` : label}
+          onChange={updateLabel} />
+        </span>
         {inputs[type]()}
       </label>
   );

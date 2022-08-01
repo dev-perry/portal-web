@@ -10,7 +10,7 @@ type ConfigContext = {
     end: string,
     handleAddField: (type: string) => void,
     handleMoveField: (dragIndex: number, hoverIndex: number) => void,
-    handleUpdateField: (id: number, attribute: string, value: string | string[] | boolean) => void,
+    handleUpdateField: (id: number, attribute: string, value: string | string[] | boolean | null) => void,
     updateDesc: (desc: string) => void,
     updateName: (name: string) => void,
     updateStart: (start: string) => void,
@@ -36,7 +36,8 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
             id: id,
             label: 'Label',
             type: type,
-            required: false
+            required: false,
+            options: (type == "single-choice" || type == "multi-choice") ? ['Option 1', 'Option 2', 'Option 3'] : null
         }]
     })
     )
@@ -53,7 +54,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
     )
   }
 
-  const handleUpdateField = (id: number, attribute: string, value: string | string[] | boolean) => {
+  const handleUpdateField = (id: number, attribute: string, value: string | string[] | boolean | null) => {
     setFields((previous: Field[]) =>
       update(previous, {
         [fields.findIndex(field => field.id === id)]: {
@@ -70,7 +71,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fields: {"blocks": fields},
+            fields: fields,
             desc: desc,
             name: name,
             is_active: true,
@@ -78,6 +79,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
     })}
     ).then(res => {
       if(res.status === 200) {
+      setFields([]);
       return res.json()
     }else{
       throw new Error("Error creating portal")

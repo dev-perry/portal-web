@@ -3,6 +3,7 @@ import type { Identifier, XYCoord } from 'dnd-core'
 import { useContext, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { PortalConfigurationContext } from '../contexts/PortalConfiguration';
+import update from "immutability-helper"
 import Field from '../models/Field';
 
 type WrapperProps = {
@@ -19,6 +20,11 @@ function FormInputWrapper({
 
   const updateRequired = (e: React.FormEvent<HTMLSpanElement>) => {
     handleUpdateField(field.id, "required", e.currentTarget.checked);
+  }
+
+  const addOption = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    handleUpdateField(field.id, "options", update(field.options, {$push: [`Option ${field.options!.length + 1}`]}));
   }
 
   const [{handlerId}, drop] = useDrop<{index:number}, void, {handlerId: Identifier | null}>({
@@ -87,9 +93,9 @@ function FormInputWrapper({
     <div ref={ref} className="flex flex-row space-x-2 items-center" data-handler-id={handlerId}>
       <i className="fa-grip-dots-vertical fa-regular hover:cursor-grab" />
       <div>
-        <FormInput id={field.id} type={field.type} editable={true}/>
+        <FormInput {...field} editable={true}/>
         {field.type === 'single-choice' || field.type === 'multi-choice' ? (
-          <button className="mt-3 font-semibold text-[#427A5B]">
+          <button onClick={(e) => addOption(e)} className="mt-3 font-semibold text-[#427A5B]">
             Add option
           </button>
         ) : null}
