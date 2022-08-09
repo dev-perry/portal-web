@@ -22,9 +22,6 @@ function Table(): JSX.Element {
                         Portal
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
-                        Submitter
-                      </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                         Submitted On
                       </th>
                     </tr>
@@ -37,7 +34,6 @@ function Table(): JSX.Element {
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm font-bold text-[#427A5B]">{submission.status}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm">{submission.portal}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">{submission.submitter}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm">{submission.submitted}</td>
                       </tr>
                     ))}

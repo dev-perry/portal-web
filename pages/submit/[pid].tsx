@@ -43,18 +43,6 @@ const Submit: NextPage = () => {
           <p className="text-2xl font-medium text-[#427A5B] mb-1">
             {targetPortal.name}
           </p>
-          <div className="flex flex-row items-center space-x-2">
-            <p> Start Date </p>
-            <hr
-              style={{
-                color: '#D4D4D4',
-                backgroundColor: '#D4D4D4',
-                height: 2,
-                width: 16,
-              }}
-            />
-            <p> End Date </p>
-          </div>
           <p className="leading-5 mt-6 mb-7">{targetPortal.desc}</p>
           <hr
             style={{

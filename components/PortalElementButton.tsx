@@ -25,10 +25,6 @@ const elements: {[key: string]: {icon: string, label: string}} = {
   "date": {
     icon: "fa-calendar",
     label: "Date"
-  }, 
-  "file": {
-    icon: "fa-file-lines",
-    label: "File Upload"
   }
 }
 

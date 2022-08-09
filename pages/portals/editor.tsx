@@ -14,10 +14,9 @@ function PortalEditor(): JSX.Element {
     'single-choice',
     'multi-choice',
     'date',
-    'file',
   ];
 
-  const { start, end, updateStart, updateEnd, updateDesc, updateName, writeToDatabase } = useContext(PortalConfigurationContext);
+  const {updateDesc, updateName, writeToDatabase } = useContext(PortalConfigurationContext);
 
   const savePortal = () => {
     writeToDatabase();
@@ -46,26 +45,6 @@ function PortalEditor(): JSX.Element {
                 className="block border-2 border-[#D4D4D4] mt-3.5 w-[396px] rounded-lg px-2 h-24"
               ></textarea>
             </label>
-            <div className="space-y-4">
-              <label className="block">
-                <span className="font-medium text-base">Start</span>
-                <input
-                value={start}
-                onChange={(e) => updateStart(e.target.value)}
-                  type="datetime-local"
-                  className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
-                ></input>
-              </label>
-              <label className="block">
-                <span className="font-medium text-base">End</span>
-                <input
-                value={end}
-                onChange={(e) => updateEnd(e.target.value)}
-                type="datetime-local"
-                className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
-                ></input>
-              </label>
-            </div>
             <div className="grid grid-cols-3 gap-y-6 pt-8">
               {portalButtons.map((type) => (
                 <PortalElementButton key={type} fieldType={type} />

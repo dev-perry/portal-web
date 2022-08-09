@@ -6,15 +6,11 @@ type ConfigContext = {
     fields: Field[],
     desc: string,
     name: string,
-    start: string,
-    end: string,
     handleAddField: (type: string) => void,
     handleMoveField: (dragIndex: number, hoverIndex: number) => void,
     handleUpdateField: (id: number, attribute: string, value: string | string[] | boolean | null) => void,
     updateDesc: (desc: string) => void,
     updateName: (name: string) => void,
-    updateStart: (start: string) => void,
-    updateEnd: (end: string) => void,
     writeToDatabase: () => void
 }
 
@@ -23,10 +19,8 @@ export const PortalConfigurationContext = createContext({} as ConfigContext);
 
 function PortalConfiguration({children}:{children: React.ReactNode}) {
     const [fields, setFields] = useState<Field[]>([])
-    const [desc, updateDesc] = useState('Edit the Description field to update this text. Important instructions for your submitters should be included here.');
+    const [desc, updateDesc] = useState('Edit the description field to update this text. Important instructions for your submitters should be included here.');
     const [name, updateName] = useState('Portal Name');
-    const [start, updateStart] = useState('');
-    const [end, updateEnd] = useState('');
 
   const handleAddField = (type: string) => {
     const id = Math.floor(Math.random() * 68759)
@@ -75,7 +69,6 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
             desc: desc,
             name: name,
             is_active: true,
-            files: true
     })}
     ).then(res => {
       if(res.status === 200) {
@@ -89,7 +82,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
   }
 
   return (
-    <PortalConfigurationContext.Provider value={{fields, name, desc, start, end, handleAddField, handleMoveField, handleUpdateField, updateName, updateDesc, updateStart, updateEnd, writeToDatabase}}>
+    <PortalConfigurationContext.Provider value={{fields, name, desc, handleAddField, handleMoveField, handleUpdateField, updateName, updateDesc, writeToDatabase}}>
       {children}
     </PortalConfigurationContext.Provider>
   );

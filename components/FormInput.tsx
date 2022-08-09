@@ -35,9 +35,6 @@ function FormInput({ type, id, editable, label, options, required}: InputProps):
         className="block border-2 border-[#D4D4D4] mt-3.5 h-8 rounded-lg"
       ></input>
     ),
-    file: () => (
-      <input name={label} disabled={editable} type="file" className="block mt-3.5 file:border-2 file:bg-[#F2F2F2] file:rounded-lg file:border-[#D4D4D4]"/>
-    ),
     'single-choice': () => <FormInputChoices id={id} type="single-choice" options={options} disabled={editable} label={label}/>,
     'multi-choice': () => <FormInputChoices id={id} type="multi-choice" options={options} disabled={editable} label={label}/>,
   };

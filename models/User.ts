@@ -1,11 +1,9 @@
 type User = {
-    _id: string,
-    firstName: string;
-    lastName: string;
+    id: string,
+    first_name: string;
+    last_name: string;
     email: string;
-    teamId: string;
-    role: string;
-    createdOn: Date;
+    created_on: Date;
 }
 
 export default User;
