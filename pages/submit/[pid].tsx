@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import FormInput from '../../components/FormInput';
 import { SubmissionContext } from '../../contexts/Submission';
 

@@ -1,7 +1,7 @@
 type Submission = {
     id: string;
     portal_id: string;
-    created_on: Date;
+    created_on: string;
     review_status: string;
     fields: {
         _id: string;
