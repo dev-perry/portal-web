@@ -6,7 +6,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import PortalConfiguration from '../contexts/PortalConfiguration';
-import Submission from "../contexts/Submission";
+import Submission from '../contexts/Submission';
+import Viewing from '../contexts/SubmissionViewing';
+import PortalManager from '../contexts/Portal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -15,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className="flex flex-row min-h-screen">
       <div
         className={classNames('flex-none align-self-start', {
-          hidden: router.asPath.includes('/auth') || router.asPath.includes('/submit'),
+          hidden:
+            router.asPath.includes('/auth') ||
+            router.asPath.includes('/submit'),
         })}
       >
         <NavBar />
@@ -23,9 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="grow">
         <DndProvider backend={HTML5Backend}>
           <PortalConfiguration>
+            <PortalManager>
             <Submission>
-            <Component {...pageProps} />
+              <Viewing>
+                <Component {...pageProps} />
+              </Viewing>
             </Submission>
+            </PortalManager>
           </PortalConfiguration>
         </DndProvider>
       </div>
