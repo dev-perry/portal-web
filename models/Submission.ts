@@ -4,9 +4,8 @@ type Submission = {
     created_on: string;
     review_status: string;
     fields: {
-        _id: string;
-        value: string;
-    }[];
+        [key: string]: string;
+    };
 }
 
 export default Submission;
