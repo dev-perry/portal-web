@@ -1,6 +1,7 @@
 import Submission from "../models/Submission";
 import classNames from "classnames";
-import {useState, useEffect} from "react";
+import { useEffect, useContext, useState} from "react";
+import { ViewingContext } from "../contexts/SubmissionViewing";
 
 function Table({data} : {data: Submission[]}): JSX.Element {
   const dateLabel = (dateString: string) => {
@@ -8,13 +9,18 @@ function Table({data} : {data: Submission[]}): JSX.Element {
     return submittedDate.toLocaleDateString("en-US", {weekday: undefined, month: "short", day: "numeric", year: "numeric"});
   };
 
-  const [selectedSubmission, setSelectedSubmission] = useState<string>();
+  const { selectedSubmission, setSelectedSubmission } = useContext(ViewingContext);
+
+  const handleSelection = (index: number) => {
+    setSelectedSubmission(data[index]);
+  }
+
 
   useEffect(() => {
-      setSelectedSubmission(data[0].id);
-      console.log(selectedSubmission)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+      if(data.length > 0) {
+        handleSelection(0);
+      }
+  }, [])
 
     return(
         <div className="flex flex-col mt-8"> 
@@ -36,10 +42,10 @@ function Table({data} : {data: Submission[]}): JSX.Element {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#F2F2F2] bg-white text-[#4C4C4C]">
-                    {data.map((submission) => (
-                      <tr onClick={() => setSelectedSubmission(submission.id)} className={classNames({
+                    {data.map((submission, index) => (
+                      <tr onClick={() => handleSelection(index)} className={classNames({
                         "text-[#4C4C4C]": true,
-                        "bg-[#427A5B26]": selectedSubmission && submission.id === selectedSubmission,
+                        "bg-[#427A5B26]": selectedSubmission && submission.id === selectedSubmission.id,
                         })} key={submission.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                           {submission.id}
