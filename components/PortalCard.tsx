@@ -1,3 +1,6 @@
+import {useContext} from 'react';
+import {PortalContext} from '../contexts/Portal';
+
 type CardProps = {
   name: string;
   desc: string;
@@ -5,6 +8,7 @@ type CardProps = {
 };
 
 function PortalCard({ name, desc, id }: CardProps): JSX.Element {
+  const { deletePortal } = useContext(PortalContext);
 
   const pushToSubmit = () => {
     window.open(`/submit/${id}`, '_blank');
@@ -30,7 +34,7 @@ function PortalCard({ name, desc, id }: CardProps): JSX.Element {
             <button onClick={pushToSubmit} className="text-xs border border-[#4C4C4C] text-[#4C4C4C] hover:text-[#ffffff] hover:bg-[#4C4C4C] rounded px-2">
               View
             </button>
-            <button className="text-xs border border-[#9D2F2F] text-[#9D2F2F] hover:text-[#ffffff] hover:bg-[#9D2F2F] rounded px-2">
+            <button onClick={() => deletePortal(id)} className="text-xs border border-[#9D2F2F] text-[#9D2F2F] hover:text-[#ffffff] hover:bg-[#9D2F2F] rounded px-2">
               Delete
             </button>
           </div>

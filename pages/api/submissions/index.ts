@@ -28,4 +28,15 @@ export default async function handler(
       res.status(500).json({ error: error });
     }
   }
+  if(req.method === 'DELETE'){
+    try{
+      const {data, error} = await supabase
+      .from('submissions')
+      .delete()
+      if (error) throw error
+      res.status(200).json(data)
+    } catch(error){
+      res.status(500).json({ error: error })
+    }
+  }
 }

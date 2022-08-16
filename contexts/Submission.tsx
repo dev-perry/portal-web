@@ -7,6 +7,7 @@ type SubContext = {
     setTargetPortal: (portal: Portal) => void;
     setSubmittingState: (state: boolean) => void;
     sendSubmission: (portal_id: string, fields: {[key: string]: string}) => void;
+    deleteSubmission: (portal_id: string, submission_id: string) => void;
 }
 
 export const SubmissionContext = createContext({} as SubContext);
@@ -36,8 +37,22 @@ function Submission({children} : {children: React.ReactNode}){
         )
     }
 
+    const deleteSubmission = (submission_id: string) => {
+        fetch(`/api/submissions/${submission_id}`, {
+            method: 'DELETE'
+        }).then((res) => {
+            if(res.status === 200){
+                return res.json();
+            }else{
+                throw new Error('Error deleting submission');
+            }
+        }).catch((err) => {
+            console.error(err);
+        })
+    }
+
     return(
-        <SubmissionContext.Provider value={{isSubmitting, setSubmittingState, sendSubmission, targetPortal, setTargetPortal}}>
+        <SubmissionContext.Provider value={{isSubmitting, setSubmittingState, sendSubmission, deleteSubmission, targetPortal, setTargetPortal}}>
             {children}
         </SubmissionContext.Provider>
     )
