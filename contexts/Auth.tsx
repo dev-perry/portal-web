@@ -4,7 +4,7 @@ import { User } from '@supabase/gotrue-js';
 import { supabase } from '../utils/supabaseClient';
 
 type AuthContext = {
-  user: User | null | undefined;
+  user: User;
   signup: (email: string, password: string) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -13,11 +13,11 @@ type AuthContext = {
 export const AuthContext = createContext({} as AuthContext);
 
 function Auth({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User>({} as User);
   const router = useRouter();
 
   useEffect(() => {
-    setUser(supabase.auth.user());
+    setUser(supabase.auth.user() as User);
     if(!user && !router.asPath.includes('/submit')){
       router.replace('/auth')
     }
@@ -28,7 +28,7 @@ function Auth({ children }: { children: React.ReactNode }) {
     try {
       const { user, error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
-      setUser(user);
+      setUser(user as User);
     } catch (error) {
       console.error(error);
     }
@@ -38,7 +38,7 @@ function Auth({ children }: { children: React.ReactNode }) {
     try {
       const { user, error } = await supabase.auth.signIn({ email, password });
       if (error) throw error;
-      setUser(user);
+      setUser(user as User);
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +48,7 @@ function Auth({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      setUser(null);
+      setUser({} as User);
       console.log("Log out triggered")
     } catch (error) {
       console.error(error);
