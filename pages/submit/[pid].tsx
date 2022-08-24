@@ -1,9 +1,10 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import FormInput from '../../components/FormInput';
 import { SubmissionContext } from '../../contexts/Submission';
+import { supabase } from '../../utils/supabaseClient';
 
 const Submit: NextPage = () => {
   const router = useRouter();
@@ -13,11 +14,21 @@ const Submit: NextPage = () => {
 
   useEffect(() => {
     if (pid) {
-      fetch(`/api/portals/${pid}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setTargetPortal(data);
-        });
+      const fetchSubmission = async () => {
+        try{
+          const {data, error} = await supabase
+          .from('portals')
+          .select('*')
+          .eq('id', pid)
+          .single()
+          if (error) throw error
+          setTargetPortal(data)
+        } catch(error){
+          console.error(error)
+        }
+      }
+
+      fetchSubmission()
     }
   }, [pid]);
 

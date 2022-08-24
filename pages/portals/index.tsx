@@ -4,17 +4,26 @@ import {useRouter} from 'next/router';
 import { useEffect, useContext } from 'react';
 import PortalCard from '../../components/PortalCard';
 import { PortalContext } from '../../contexts/Portal';
+import { supabase } from '../../utils/supabaseClient';
 
 const Portals: NextPage = () => {
   const router = useRouter();
   const {portals, setPortals} = useContext(PortalContext);
 
   useEffect(() => {
-    fetch('/api/portals')
-      .then(res => res.json())
-      .then(data => {
+      const fetchData = async () => {
+      try{
+        const {data, error} = await supabase
+        .from('portals')
+        .select('id, name, desc')
+        if (error) throw error
         setPortals(data)
-      })
+      } catch(error){
+        console.error(error)
+      }
+    }
+
+    fetchData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[portals])
   

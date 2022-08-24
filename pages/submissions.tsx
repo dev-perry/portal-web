@@ -4,16 +4,25 @@ import Head from 'next/head';
 import Table from '../components/Table';
 import SubViewer from '../components/SubViewer';
 import { ViewingContext } from '../contexts/SubmissionViewing';
+import { supabase } from '../utils/supabaseClient';
 
 const Submissions: NextPage = () => {
   const { submissions, setSubmissions, selectedSubmission } = useContext(ViewingContext);
 
   useEffect(() => {
-    fetch('/api/submissions')
-      .then((res) => res.json())
-      .then((data) => {
-        setSubmissions(data);
-      });
+    const fetchSubmissions = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('submissions')
+        .select('id, portal_id, created_on, fields');
+      if (error) throw error;
+      setSubmissions(data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  fetchSubmissions()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissions]);
 
