@@ -1,7 +1,8 @@
-import {useState, createContext} from 'react';
+import {useState, createContext, useContext} from 'react';
 import update from 'immutability-helper';
 import Field from '../models/Field';
 import { supabase } from '../utils/supabaseClient';
+import { AuthContext } from './Auth';
 
 type ConfigContext = {
     fields: Field[],
@@ -22,6 +23,8 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
     const [fields, setFields] = useState<Field[]>([])
     const [desc, updateDesc] = useState('Edit the description field to update this text. Important instructions for your submitters should be included here.');
     const [name, updateName] = useState('Portal Name');
+
+    const { user } = useContext(AuthContext);
 
   const handleAddField = (type: string) => {
     const id = Math.floor(Math.random() * 68759)
@@ -67,7 +70,7 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
         fields: fields,
         desc: desc,
         name: name,
-        is_active: true,
+        owner_id: user!.id
       })
       if (error) throw error
       setFields([]);

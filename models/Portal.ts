@@ -5,7 +5,7 @@ type Portal = {
     name: string;
     desc: string;
     created_on: Date;
-    is_active: boolean;
+    owner_id: string;
     fields: Field[]
 }
 
