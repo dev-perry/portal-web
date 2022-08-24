@@ -1,5 +1,6 @@
 import {createContext, useState} from "react"
 import Portal from "../models/Portal";
+import { supabase } from "../utils/supabaseClient";
 
 type PortalContext = {
     portals: Portal[];
@@ -12,18 +13,16 @@ export const PortalContext = createContext({} as PortalContext);
 function PortalManager({children}: {children: React.ReactNode}) {
     const [portals, setPortals] = useState<Portal[]>([])
 
-    const deletePortal = (portal_id: string) => {
-        fetch(`/api/portals/${portal_id}`, {
-            method: 'DELETE'
-        }).then((res) => {
-            if (res.status === 200) {
-                return res.json();
-            } else {
-                throw new Error('Error deleting portal');
-            }
-        }).catch((err) => {
-            console.error(err);
-        })
+    const deletePortal = async (portal_id: string) => {
+        try{
+            const {error} = await supabase
+            .from('portals')
+            .delete()
+            .eq('id', portal_id)
+            if (error) throw error
+          } catch(error){
+            console.error(error)
+          }
     }
 
     return (

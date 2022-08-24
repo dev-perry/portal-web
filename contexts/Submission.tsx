@@ -1,61 +1,68 @@
-import { createContext, useState } from "react";
-import Portal from "../models/Portal";
+import { createContext, useState } from 'react';
+import Portal from '../models/Portal';
+import { supabase } from '../utils/supabaseClient';
 
 type SubContext = {
-    isSubmitting: boolean;
-    targetPortal: Portal;
-    setTargetPortal: (portal: Portal) => void;
-    setSubmittingState: (state: boolean) => void;
-    sendSubmission: (portal_id: string, fields: {[key: string]: string}) => void;
-    deleteSubmission: (portal_id: string, submission_id: string) => void;
-}
+  isSubmitting: boolean;
+  targetPortal: Portal;
+  setTargetPortal: (portal: Portal) => void;
+  setSubmittingState: (state: boolean) => void;
+  sendSubmission: (
+    portal_id: string,
+    fields: { [key: string]: string }
+  ) => void;
+  deleteSubmission: (submission_id: string) => void;
+};
 
 export const SubmissionContext = createContext({} as SubContext);
 
-function Submission({children} : {children: React.ReactNode}){
-    const [isSubmitting, setSubmittingState] = useState<boolean>(false);
-    const [targetPortal, setTargetPortal] = useState({} as Portal)
+function Submission({ children }: { children: React.ReactNode }) {
+  const [isSubmitting, setSubmittingState] = useState<boolean>(false);
+  const [targetPortal, setTargetPortal] = useState({} as Portal);
 
-    const sendSubmission = (portal_id: string, fields: {[key: string]: string}) => {
-        setSubmittingState(true);
-        fetch('/api/submissions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({portal_id, fields})
-        }).then((res) => {
-            setSubmittingState(false);
-            if(res.status === 200){
-                return res.json();
-            }else{
-                throw new Error('Error submitting form');
-            }
-        }).catch((err) => {
-            console.error(err);
-        }
-        )
+  const sendSubmission = async (
+    portal_id: string,
+    fields: { [key: string]: string }
+  ) => {
+    setSubmittingState(true);
+    try {
+      const { error } = await supabase
+        .from('submissions')
+        .insert({ portal_id, fields });
+      if (error) throw error;
+      setSubmittingState(false);
+    } catch (error) {
+      setSubmittingState(false);
+      console.error(error);
     }
+  };
 
-    const deleteSubmission = (submission_id: string) => {
-        fetch(`/api/submissions/${submission_id}`, {
-            method: 'DELETE'
-        }).then((res) => {
-            if(res.status === 200){
-                return res.json();
-            }else{
-                throw new Error('Error deleting submission');
-            }
-        }).catch((err) => {
-            console.error(err);
-        })
+  const deleteSubmission = async (submission_id: string) => {
+    try {
+      const { error } = await supabase
+        .from('submissions')
+        .delete()
+        .eq('id', submission_id);
+      if (error) throw error;
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return(
-        <SubmissionContext.Provider value={{isSubmitting, setSubmittingState, sendSubmission, deleteSubmission, targetPortal, setTargetPortal}}>
-            {children}
-        </SubmissionContext.Provider>
-    )
+  return (
+    <SubmissionContext.Provider
+      value={{
+        isSubmitting,
+        setSubmittingState,
+        sendSubmission,
+        deleteSubmission,
+        targetPortal,
+        setTargetPortal,
+      }}
+    >
+      {children}
+    </SubmissionContext.Provider>
+  );
 }
 
 export default Submission;

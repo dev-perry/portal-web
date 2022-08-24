@@ -1,6 +1,7 @@
 import {useState, createContext} from 'react';
 import update from 'immutability-helper';
 import Field from '../models/Field';
+import { supabase } from '../utils/supabaseClient';
 
 type ConfigContext = {
     fields: Field[],
@@ -58,27 +59,21 @@ function PortalConfiguration({children}:{children: React.ReactNode}) {
     )
   }
 
-  const writeToDatabase = () => {
-    fetch('/api/portals', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            fields: fields,
-            desc: desc,
-            name: name,
-            is_active: true,
-    })}
-    ).then(res => {
-      if(res.status === 200) {
+  const writeToDatabase = async () => {
+    try{
+      const {error} = await supabase
+      .from('portals')
+      .insert({
+        fields: fields,
+        desc: desc,
+        name: name,
+        is_active: true,
+      })
+      if (error) throw error
       setFields([]);
-      return res.json()
-    }else{
-      throw new Error("Error creating portal")
+    } catch(error){
+      console.error(error)
     }
-  })
-  .catch(err => console.error(err))
   }
 
   return (
