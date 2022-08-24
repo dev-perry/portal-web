@@ -3,12 +3,14 @@ import Head from 'next/head';
 import {useRouter} from 'next/router';
 import { useEffect, useContext } from 'react';
 import PortalCard from '../../components/PortalCard';
+import { AuthContext } from '../../contexts/Auth';
 import { PortalContext } from '../../contexts/Portal';
 import { supabase } from '../../utils/supabaseClient';
 
 const Portals: NextPage = () => {
   const router = useRouter();
   const {portals, setPortals} = useContext(PortalContext);
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
       const fetchData = async () => {
@@ -16,6 +18,7 @@ const Portals: NextPage = () => {
         const {data, error} = await supabase
         .from('portals')
         .select('id, name, desc')
+        .eq('owner_id', user!.id)
         if (error) throw error
         setPortals(data)
       } catch(error){
