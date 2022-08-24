@@ -1,6 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 import Portal from '../models/Portal';
 import { supabase } from '../utils/supabaseClient';
+import { AuthContext } from './Auth';
 
 type SubContext = {
   isSubmitting: boolean;
@@ -19,6 +20,7 @@ export const SubmissionContext = createContext({} as SubContext);
 function Submission({ children }: { children: React.ReactNode }) {
   const [isSubmitting, setSubmittingState] = useState<boolean>(false);
   const [targetPortal, setTargetPortal] = useState({} as Portal);
+  const { user } = useContext(AuthContext);
 
   const sendSubmission = async (
     portal_id: string,
@@ -28,7 +30,7 @@ function Submission({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase
         .from('submissions')
-        .insert({ portal_id, fields });
+        .insert({ portal_id, fields, portal_owner_id: user!.id });
       if (error) throw error;
       setSubmittingState(false);
     } catch (error) {
