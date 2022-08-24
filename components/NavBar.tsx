@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/Auth';
 
 type NavItem = {
   icon: string;
@@ -11,6 +13,7 @@ type NavItem = {
 
 function NavBar(): JSX.Element {
     const router = useRouter();
+    const { logout } = useContext(AuthContext);
 
   const navigation: NavItem[] = [
     {
@@ -48,9 +51,9 @@ function NavBar(): JSX.Element {
           );
         })}
       </div>
-      <span className="text-lg font-medium text-[#9D2F2F] absolute bottom-20">
+      <button onClick={logout} className="text-lg font-medium text-[#9D2F2F] absolute bottom-20">
         <i className="fa-regular fa-arrow-left-from-line pr-2"></i>Logout
-      </span>
+      </button>
     </div>
   );
 }
