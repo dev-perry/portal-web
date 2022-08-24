@@ -9,11 +9,13 @@ import PortalConfiguration from '../contexts/PortalConfiguration';
 import Submission from '../contexts/Submission';
 import Viewing from '../contexts/SubmissionViewing';
 import PortalManager from '../contexts/Portal';
+import Auth from '../contexts/Auth';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
+    <Auth>
     <div className="flex flex-row min-h-screen">
       <div
         className={classNames('flex-none align-self-start', {
@@ -26,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </div>
       <div className="grow">
         <DndProvider backend={HTML5Backend}>
+
           <PortalConfiguration>
             <PortalManager>
             <Submission>
@@ -38,6 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </DndProvider>
       </div>
     </div>
+    </Auth>
   );
 }
 
