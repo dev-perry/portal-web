@@ -51,7 +51,7 @@ function PortalEditor(): JSX.Element {
               ))}
             </div>
             <div className="flex flex-row space-x-5 justify-end pt-8">
-              <button className="border border-[#9D2F2F] bg-[#FFFFFF] text-[#9D2F2F] w-20 h-8 font-medium rounded">
+              <button onClick={() => router.replace("/portals")} className="border border-[#9D2F2F] bg-[#FFFFFF] text-[#9D2F2F] w-20 h-8 font-medium rounded">
                 Cancel
               </button>
               <button onClick={savePortal} className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
