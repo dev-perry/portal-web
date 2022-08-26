@@ -1,6 +1,6 @@
 import Submission from "../models/Submission";
 import classNames from "classnames";
-import { useEffect, useContext, useState} from "react";
+import { useEffect, useContext} from "react";
 import { ViewingContext } from "../contexts/SubmissionViewing";
 
 function Table({data} : {data: Submission[]}): JSX.Element {
@@ -13,6 +13,12 @@ function Table({data} : {data: Submission[]}): JSX.Element {
 
   const handleSelection = (index: number) => {
     setSelectedSubmission(data[index]);
+  }
+
+  const sortByDate = (a: Submission, b: Submission) => {
+    const aDate = new Date(a.created_on);
+    const bDate = new Date(b.created_on);
+    return aDate.getTime() - bDate.getTime();
   }
 
 
@@ -42,7 +48,7 @@ function Table({data} : {data: Submission[]}): JSX.Element {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#F2F2F2] bg-white text-[#4C4C4C]">
-                    {data.map((submission, index) => (
+                    {data.sort(sortByDate).map((submission, index) => (
                       <tr onClick={() => handleSelection(index)} className={classNames({
                         "text-[#4C4C4C]": true,
                         "bg-[#427A5B26]": selectedSubmission && submission.id === selectedSubmission.id,
@@ -50,7 +56,7 @@ function Table({data} : {data: Submission[]}): JSX.Element {
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                           {submission.id}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">{submission.portal_id}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-[#427A5B]">{submission.portals!.name}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm">{dateLabel(submission.created_on)}</td>
                       </tr>
                     ))}
