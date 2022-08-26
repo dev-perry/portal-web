@@ -7,24 +7,26 @@ import { ViewingContext } from '../contexts/SubmissionViewing';
 import { supabase } from '../utils/supabaseClient';
 
 const Submissions: NextPage = () => {
-  const { submissions, setSubmissions, selectedSubmission } = useContext(ViewingContext);
+  const { submissions, selectedSubmission, fetchSubmissions } =
+    useContext(ViewingContext);
 
   useEffect(() => {
-    const fetchSubmissions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('submissions')
-        .select('id, portal_id, created_on, fields');
-      if (error) throw error;
-      setSubmissions(data);
-    } catch (error) {
-      console.error(error)
-    }
-  }
+    fetchSubmissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  fetchSubmissions()
+  useEffect(() => {
+        const subsListener = supabase
+          .from('submissions')
+          .on('*', () => {
+            fetchSubmissions()
+          })
+          .subscribe()
+          return () => {
+            subsListener.unsubscribe()
+          }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [submissions]);
+  }, []);
 
   return (
     <>
@@ -33,8 +35,8 @@ const Submissions: NextPage = () => {
       </Head>
       <div className="flex flex-row h-screen space-x-3">
         <div className="pt-12 pl-12 w-4/6">
-        <p className="text-3xl font-default font-semibold">Submissions</p>
-        <Table data={submissions} />
+          <p className="text-3xl font-default font-semibold">Submissions</p>
+          <Table data={submissions} />
         </div>
         <div className="w-2/6 bg-[#FAFAFA] border-l-2 border-[#E6E6E6] p-8">
           {selectedSubmission && <SubViewer submission={selectedSubmission} />}

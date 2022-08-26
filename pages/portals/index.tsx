@@ -12,23 +12,37 @@ const Portals: NextPage = () => {
   const {portals, setPortals} = useContext(PortalContext);
   const {user} = useContext(AuthContext);
 
-  useEffect(() => {
-      const fetchData = async () => {
-      try{
-        const {data, error} = await supabase
-        .from('portals')
-        .select('id, name, desc')
-        .eq('owner_id', user!.id)
-        if (error) throw error
-        setPortals(data)
-      } catch(error){
-        console.error(error)
-      }
+  const fetchPortals = async () => {
+    try{
+      const {data, error} = await supabase
+      .from('portals')
+      .select('id, name, desc')
+      .eq('owner_id', user!.id)
+      if (error) throw error
+      setPortals(data)
+    } catch(error){
+      console.error(error)
     }
+  }
 
-    fetchData()
+  useEffect(() => {
+      fetchPortals();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
+
+  useEffect(() => {
+    const portalsListener = supabase
+      .from('portals')
+      .on('*', () => {
+        fetchPortals()
+      }
+      ) .subscribe()
+
+    return () => {
+      portalsListener.unsubscribe()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   
   return (
     <div className="pt-12 px-12 h-screen">
