@@ -6,6 +6,9 @@ type Submission = {
         [key: string]: string;
     };
     portal_owner_id: string;
+    portals?: {
+        name: string
+    }
 }
 
 export default Submission;
