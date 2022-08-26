@@ -22,7 +22,7 @@ function FormInput({ type, id, editable, label, options, required}: InputProps):
 
   const inputs: { [key: string]: () => JSX.Element } = {
     text: () => (
-      <input disabled={editable} name={label} className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"></input>
+      <input disabled={editable} name={label} type={type} className="block border-2 border-[#D4D4D4] mt-3.5 h-8 w-[396px] rounded-lg px-2"></input>
     ),
     'text-area': () => (
       <textarea disabled={editable} name={label} className="block border-2 border-[#D4D4D4] mt-3.5 w-[396px] rounded-lg px-2 h-24"></textarea>
