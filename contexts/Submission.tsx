@@ -2,6 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import Portal from '../models/Portal';
 import { supabase } from '../utils/supabaseClient';
 import { AuthContext } from './Auth';
+import {useRouter} from 'next/router';
 
 type SubContext = {
   isSubmitting: boolean;
@@ -21,6 +22,7 @@ function Submission({ children }: { children: React.ReactNode }) {
   const [isSubmitting, setSubmittingState] = useState<boolean>(false);
   const [targetPortal, setTargetPortal] = useState({} as Portal);
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   const sendSubmission = async (
     portal_id: string,
@@ -33,8 +35,10 @@ function Submission({ children }: { children: React.ReactNode }) {
         .insert({ portal_id, fields, portal_owner_id: user!.id });
       if (error) throw error;
       setSubmittingState(false);
+      router.push(`/submit/${portal_id}/success`);
     } catch (error) {
       setSubmittingState(false);
+      router.push(`/submit/${portal_id}/failure`);
       console.error(error);
     }
   };
