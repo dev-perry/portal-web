@@ -18,7 +18,7 @@ function Table({data} : {data: Submission[]}): JSX.Element {
   const sortByDate = (a: Submission, b: Submission) => {
     const aDate = new Date(a.created_on);
     const bDate = new Date(b.created_on);
-    return aDate.getTime() - bDate.getTime();
+    return bDate.getTime() - aDate.getTime();
   }
 
 
