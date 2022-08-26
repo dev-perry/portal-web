@@ -35,14 +35,22 @@ const Submit: NextPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let formData = {};
-    for (let element of e.target.elements) {
-      formData[element.name] = element.value;
+    for (let element of e.currentTarget.elements) {
+      if(element.type === 'checkbox' || element.type === 'radio'){
+        if(element.checked){
+          formData[element.name] = element.value
+        }
+      }else{
+        if(element.name){
+          formData[element.name] = element.value;
+        }
+      }
     }
     sendSubmission(pid as string, formData);
   };
 
   if (!targetPortal.fields) {
-    return <div className="m-auto">Loading...</div>;
+    return <div className="m-auto w-full flex flex-col h-full text-white bg-[#427A5B] items-center"><p className="text-2xl font-medium my-auto w-1/2 text-center">Loading...</p></div>;
   }
 
   return (
