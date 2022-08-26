@@ -28,7 +28,7 @@ const Portals: NextPage = () => {
 
     fetchData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[portals])
+  },[])
   
   return (
     <div className="pt-12 px-12 h-screen">
