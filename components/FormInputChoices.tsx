@@ -28,25 +28,27 @@ function FormInputChoices({
   }
 
   return (
-    <fieldset className="block">
+    <div className="block">
       {options?.map((option, index) => (
         <div key={index} className="block mt-3">
           <input
+            id={label}
             name={label}
             disabled={disabled}
+            value={option}
             type={type === 'single-choice' ? 'radio' : 'checkbox'}
             className="border-2 border-[#D4D4D4]"
           ></input>
-          <span className="ml-2 inline-block min-w-[50%]">
+          <label htmlFor={label} className="ml-2 inline-block min-w-[50%]">
             <ContentEditable
               disabled={!disabled}
               html={option}
               onChange={(e) => updateOptions(index, e)}
             />
-          </span>
+          </label>
         </div>
       ))}
-    </fieldset>
+    </div>
   );
 }
 
