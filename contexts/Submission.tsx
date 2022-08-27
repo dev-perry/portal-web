@@ -11,7 +11,7 @@ type SubContext = {
   setSubmittingState: (state: boolean) => void;
   sendSubmission: (
     portal_id: string,
-    fields: { [key: string]: string }
+    fields: { [key: string]: string | string[] }
   ) => void;
   deleteSubmission: (submission_id: string) => void;
 };
@@ -26,7 +26,7 @@ function Submission({ children }: { children: React.ReactNode }) {
 
   const sendSubmission = async (
     portal_id: string,
-    fields: { [key: string]: string }
+    fields: { [key: string]: string | string[] }
   ) => {
     setSubmittingState(true);
     try {

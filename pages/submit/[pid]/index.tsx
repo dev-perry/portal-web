@@ -34,25 +34,26 @@ const Submit: NextPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let formData = {};
+    let formData: {[key:string]: string | string[]} = {};
     for (let element of e.currentTarget.elements) {
-      if(element.type === 'radio'){
-        if(element.checked){
-          formData[element.name] = element.value
+      const field = element as HTMLInputElement
+      if(field.type === 'radio'){
+        if(field.checked){
+          formData[field.name] = field.value
         }
       }
-      if(element.type == 'checkbox'){
-        if(element.checked){
-          if(formData[element.name]){
-            formData[element.name].push(`, ${element.value}`)
+      if(field.type == 'checkbox'){
+        if(field.checked){
+          if(formData[field.name]){
+            (formData[field.name] as string[]).push(`, ${field.value}`)
           } else {
-            formData[element.name] = [element.value]
+            formData[field.name] = [field.value]
           }
         }
       }
       else{
-        if(element.name){
-          formData[element.name] = element.value;
+        if(field.name){
+          formData[field.name] = field.value;
         }
       }
     }
