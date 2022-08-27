@@ -15,7 +15,7 @@ The product development skills implemented in the assembly of this project inclu
 
 2. **UI Design**: I designed the user interface with Figma. I thought through theming, component layout, and user interaction flows. The original design file, which has a more expanded app concept, is available for viewing [here](https://www.figma.com/file/3ToSpGzBy93DoU3gUodAjC/Portal-Platform-Design?node-id=0%3A1).
 
-3. **Frontend Development**: I built the UI components in isolation with Storybook. It was my first time using Storybook for a project and, though I am not a fan of the dependency vulnerabilities it introduced to the project, I would use it again for the speed of working with isolated components.
+3. **Frontend Development**: I built the UI components in isolation with Storybook. It was my first time using Storybook for a project and, though I am not a fan of the dependency vulnerabilities it introduced to the project, I would use it again for the speed of working with isolated components. (Note: Storybook was removed in the end but it is visible in prior commits.)
 
 3. **Backend Development**: Previous versions of this project included an API for controlled access to database records. However, after realizing the Supabase client automatically handled user authentication on each request I removed the API directory.
 
