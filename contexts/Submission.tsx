@@ -1,7 +1,6 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState } from 'react';
 import Portal from '../models/Portal';
 import { supabase } from '../utils/supabaseClient';
-import { AuthContext } from './Auth';
 import {useRouter} from 'next/router';
 
 type SubContext = {
@@ -10,7 +9,6 @@ type SubContext = {
   setTargetPortal: (portal: Portal) => void;
   setSubmittingState: (state: boolean) => void;
   sendSubmission: (
-    portal_id: string,
     fields: { [key: string]: string | string[] }
   ) => void;
   deleteSubmission: (submission_id: string) => void;
@@ -21,24 +19,22 @@ export const SubmissionContext = createContext({} as SubContext);
 function Submission({ children }: { children: React.ReactNode }) {
   const [isSubmitting, setSubmittingState] = useState<boolean>(false);
   const [targetPortal, setTargetPortal] = useState({} as Portal);
-  const { user } = useContext(AuthContext);
   const router = useRouter();
 
   const sendSubmission = async (
-    portal_id: string,
     fields: { [key: string]: string | string[] }
   ) => {
     setSubmittingState(true);
     try {
       const { error } = await supabase
         .from('submissions')
-        .insert({ portal_id, fields, portal_owner_id: user!.id });
+        .insert({ portal_id: targetPortal.id, portal_owner_id: targetPortal.owner_id, fields});
       if (error) throw error;
       setSubmittingState(false);
-      router.push(`/submit/${portal_id}/success`);
+      router.push(`/submit/${targetPortal.id}/success`);
     } catch (error) {
       setSubmittingState(false);
-      router.push(`/submit/${portal_id}/failure`);
+      router.push(`/submit/${targetPortal.id}/failure`);
       console.error(error);
     }
   };

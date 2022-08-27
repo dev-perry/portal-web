@@ -57,7 +57,7 @@ const Submit: NextPage = () => {
         }
       }
     }
-    sendSubmission(pid as string, formData);
+    sendSubmission(formData);
   };
 
   if (!targetPortal.fields) {

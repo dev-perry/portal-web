@@ -49,6 +49,7 @@ function AuthForm({mode} : AuthProps) : JSX.Element {
           className="rounded-lg h-12 w-96 text-base font-regular border-[#D4D4D4] border-2"
           placeholder="Email"
         />
+        {mode == 'signup' && <p className="text-sm font-medium text-[#427A5B]">Passwords must be at least 6 characters long</p>}
         <input
           type="password"
           value={password}
