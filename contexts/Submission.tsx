@@ -28,7 +28,10 @@ function Submission({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase
         .from('submissions')
-        .insert({ portal_id: targetPortal.id, portal_owner_id: targetPortal.owner_id, fields});
+        .insert({ portal_id: targetPortal.id, portal_owner_id: targetPortal.owner_id, fields},
+          { returning: 'minimal' }
+          )
+        ;
       if (error) throw error;
       setSubmittingState(false);
       router.push(`/submit/${targetPortal.id}/success`);
