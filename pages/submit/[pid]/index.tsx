@@ -8,7 +8,7 @@ import { supabase } from '../../../utils/supabaseClient';
 
 const Submit: NextPage = () => {
   const router = useRouter();
-  const { sendSubmission, targetPortal, setTargetPortal } = useContext(SubmissionContext);
+  const { sendSubmission, targetPortal, setTargetPortal, isSubmitting } = useContext(SubmissionContext);
 
   let { pid } = router.query;
 
@@ -36,11 +36,21 @@ const Submit: NextPage = () => {
     e.preventDefault();
     let formData = {};
     for (let element of e.currentTarget.elements) {
-      if(element.type === 'checkbox' || element.type === 'radio'){
+      if(element.type === 'radio'){
         if(element.checked){
           formData[element.name] = element.value
         }
-      }else{
+      }
+      if(element.type == 'checkbox'){
+        if(element.checked){
+          if(formData[element.name]){
+            formData[element.name].push(`, ${element.value}`)
+          } else {
+            formData[element.name] = [element.value]
+          }
+        }
+      }
+      else{
         if(element.name){
           formData[element.name] = element.value;
         }
@@ -79,7 +89,7 @@ const Submit: NextPage = () => {
             {targetPortal.fields.map((field, position) => (
               <FormInput key={position} editable={false} {...field}/>
             ))}
-            <button className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
+            <button disabled={isSubmitting} className="bg-[#427A5B] w-20 h-8 text-[#FFFFFF] font-medium rounded">
               Submit
             </button>
           </form>
